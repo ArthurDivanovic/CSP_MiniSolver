@@ -46,3 +46,4 @@ function Base.in(value::Int, domain::Domain)
     #Check if value is in domain (constant time)
     return haskey(domain.indexes, value) && domain.indexes[value] <= domain.size.value
 end
+
