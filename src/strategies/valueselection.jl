@@ -13,3 +13,9 @@ function(::MinDomainValueSelection)(model::Model, variable::Variable)
     end
     return minValue
 end
+
+struct RandomValueSelection <: AbstractValueSelection end
+
+function (::RandomValueSelection)(model::Model, variable::Variable)
+    return variable.domain.values[rand(1:variable.domain.size.value)]
+end
