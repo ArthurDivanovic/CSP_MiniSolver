@@ -1,4 +1,7 @@
-function AC3(model::Model)
+struct AC3 <: AbstractAC end
+
+
+function(::AC3)(model::Model)
     
     to_test = []
 
@@ -19,6 +22,7 @@ function AC3(model::Model)
             for y_value in y.domain.values[1:y.domain.size.value]
                 if (x_value, y_value) in constraint.values
                     supported = true
+                    break
                 end
             end
 

@@ -1,3 +1,6 @@
+struct AC4 <: AbstractAC end
+
+
 function init_AC4(model::Model)
     
     Q = []
@@ -46,7 +49,9 @@ function init_AC4(model::Model)
 end
 
 
-function AC4(model::Model)
+
+
+function (::AC4)(model::Model)
     
     Q, S, Count = init_AC4(model)
 
