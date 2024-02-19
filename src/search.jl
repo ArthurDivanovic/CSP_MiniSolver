@@ -24,10 +24,11 @@ function DepthFirstSearch!(model::Model, toCall::Stack{Function}, variableSelect
     end
 
     if solutionFound(model)
-        # return :SolutionFound
         displaySolution(model)
-        println(" ")
-        return :Infeasible
+        return :SolutionFound
+        
+        # println(" ")
+        # return :Infeasible
     end
 
 
