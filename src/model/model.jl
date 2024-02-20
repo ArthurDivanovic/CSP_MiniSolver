@@ -40,7 +40,7 @@ end
 
 function assign!(model::Model, variable::Variable, value::Int)
     model.lastAssigned = variable
-    assign!(variable.domain, value)
+    assign!(variable, value)
 end
 
 

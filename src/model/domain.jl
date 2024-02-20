@@ -2,14 +2,14 @@ struct Domain
     values      ::Array{Int}
     offset      ::Int
     indexes     ::Array{Int}
-    size        ::Size
+    size        ::State{Int}
     tree        ::Tree
 end
 
 function Domain(min::Int, max::Int, tree::Tree)
     d = max-min+1
     values = collect(1:d)
-    size = Size(d)
+    size = State(d)
     offset = min - 1
     indexes = collect(1:d)
     return Domain(values, offset, indexes, size, tree)
@@ -48,7 +48,7 @@ end
 
 function Base.in(value::Int, domain::Domain)
     #Check if value is in domain (constant time)
-    value -= domain.offset
+    # value -= domain.offset
     return domain.indexes[value] <= domain.size.value
 end
 
