@@ -66,7 +66,7 @@ function max_degree_neighbour(adj::Matrix{Int}, node::Int)
 end
 
 
-function graph_coloring(file_path::String, k::Int)
+function graph_coloring(file_path::String, k::Int, T::Type{<:AbstractConstraint})
     adj = parse_graph(file_path)
     max_degree_node_idx = max_degree_node(adj)
     
@@ -95,7 +95,7 @@ function graph_coloring(file_path::String, k::Int)
     for i = 1:n
         for j = i+1:n
             if adj[i,j] == 1
-                addConstraint!(model, different(C[i], C[j]))
+                addConstraint!(model, different(C[i], C[j], T))
             end
         end
     end
