@@ -12,12 +12,12 @@ function init_AC4(model::Model)
         x = constraint.x
         y = constraint.y 
 
-        for x_value in x.domain.values[1:x.domain.size.value]
+        for x_value in feasibleValues(x)
             total = 0
 
-            for y_value in y.domain.values[1:y.domain.size.value]
+            for y_value in feasibleValues(y)
 
-                if (x_value, y_value) in constraint.values
+                if (x_value, y_value) in constraint.tuples
                     total += 1
 
                     if haskey(S, (y.id, y_value)) 

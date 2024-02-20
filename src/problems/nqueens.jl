@@ -1,4 +1,4 @@
-function nQueens(n::Int)
+function nQueens(n::Int, T::Type{<:AbstractConstraint})
     tree = Tree()
     model = Model(tree)
 
@@ -9,12 +9,12 @@ function nQueens(n::Int)
         push!(X, x)
     end
 
-    addConstraint!(model, allDifferent(X))
+    addConstraint!(model, allDifferent(X, T))
 
     for i = 1:n
         for j = i+1:n
-            addConstraint!(model, differentConstant(X[i], i, X[j], j))
-            addConstraint!(model, differentConstant(X[i], j, X[j], i))
+            addConstraint!(model, differentConstant(X[i], X[j], i, j, T))
+            addConstraint!(model, differentConstant(X[i], X[j], j, i, T))
         end
     end
 
