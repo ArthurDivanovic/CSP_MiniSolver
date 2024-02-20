@@ -1,14 +1,18 @@
 struct Domain
     values      ::Array{Int}
-    indexes     ::Dict{Int,Int}
+    offset      ::Int
+    indexes     ::Array{Int}
     size        ::Size
     tree        ::Tree
 end
 
-function Domain(values::Array{Int}, tree::Tree)
-    size = Size(length(values))
-    indexes = Dict([values[i]=>i for i = 1:length(values)])
-    return Domain(values, indexes, size, tree)
+function Domain(min::Int, max::Int, tree::Tree)
+    d = max-min+1
+    values = collect(1:d)
+    size = Size(d)
+    offset = min - 1
+    indexes = collect(1:d)
+    return Domain(values, offset, indexes, size, tree)
 end
 
 function remove!(domain::Domain, value::Int)
@@ -44,6 +48,7 @@ end
 
 function Base.in(value::Int, domain::Domain)
     #Check if value is in domain (constant time)
-    return haskey(domain.indexes, value) && domain.indexes[value] <= domain.size.value
+    value -= domain.offset
+    return domain.indexes[value] <= domain.size.value
 end
 

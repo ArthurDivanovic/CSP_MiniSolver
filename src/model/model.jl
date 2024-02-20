@@ -1,11 +1,18 @@
+include("tree.jl")
+include("domain.jl")
+include("variable.jl")
+
+abstract type AbstractConstraint end
+
 mutable struct Model
     variables       ::Dict{String, Variable}
-    constraints     ::Array{Constraint}
+    constraints     ::Array{AbstractConstraint}
     tree            ::Tree
+    lastAssigned    ::Union{Variable,Nothing}
 
-    Model(tree::Tree) = new(Dict{String, Variable}(), Constraint[], tree)
+    Model(tree::Tree) = new(Dict{String, Variable}(), AbstractConstraint[], tree, nothing)
 
-    Model() = new(Dict{String, Variable}(), Constraint[], Tree())
+    Model() = new(Dict{String, Variable}(), AbstractConstraint[], Tree(), nothing)
 end
 
 
@@ -22,13 +29,18 @@ function addVariable!(model::Model, variables::Vector{Variable})
 end
 
 
-function addConstraint!(model::Model, constraint::Constraint)
+function addConstraint!(model::Model, constraint::AbstractConstraint)
     push!(model.constraints, constraint)
 end
 
 
-function addConstraint!(model::Model, constraints::Vector{Constraint})
+function addConstraint!(model::Model, constraints::Vector{AbstractConstraint})
     append!(model.constraints, constraints)
+end
+
+function assign!(model::Model, variable::Variable, value::Int)
+    model.lastAssigned = variable
+    assign!(variable.domain, value)
 end
 
 

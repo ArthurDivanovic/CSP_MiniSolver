@@ -1,7 +1,7 @@
-function search!(model::Model, variableSelection::AbstractVariableSelection, valueSelection::AbstractValueSelection, AC::AbstractAC)
+function search!(model::Model, variableSelection::AbstractVariableSelection, valueSelection::AbstractValueSelection, AC::Union{Nothing,<:AbstractAC}, FC::Union{Nothing, ForwardChecking})
     toCall = Stack{Function}()
 
-    currentStatus = DepthFirstSearch!(model, toCall, variableSelection, valueSelection, AC)
+    currentStatus = DepthFirstSearch!(model, toCall, variableSelection, valueSelection, AC, FC)
 
     while !isempty(toCall)
         # println(currentStatus)
@@ -16,38 +16,41 @@ function search!(model::Model, variableSelection::AbstractVariableSelection, val
     end
 end
 
-function DepthFirstSearch!(model::Model, toCall::Stack{Function}, variableSelection::AbstractVariableSelection, valueSelection::AbstractValueSelection, AC::AbstractAC)
-    feasible = AC(model)
+function DepthFirstSearch!(model::Model, toCall::Stack{Function}, variableSelection::AbstractVariableSelection, valueSelection::AbstractValueSelection, AC::Union{Nothing,<:AbstractAC}, FC::Union{Nothing, ForwardChecking})
     
-    if !feasible 
-        return :Infeasible
+    if !isnothing(AC)
+        feasible = AC(model)
+        if !feasible 
+            return :Infeasible
+        end
+    end
+
+    if !isnothing(FC)
+        feasible = FC(model)
+        if !feasible 
+            return :Infeasible
+        end
     end
 
     if solutionFound(model)
         displaySolution(model)
         return :SolutionFound
-        
-        # println(" ")
-        # return :Infeasible
     end
-
 
     x = variableSelection(model)
     v = valueSelection(model, x)
 
-    # println("var = ", x.id)
-    # println("val = ", v)
 
     push!(toCall, (model, currentStatus) -> (restoreNode!(model.tree); :BackTracking))
 
-    push!(toCall, (model, currentStatus) -> (remove!(x.domain, v); DepthFirstSearch!(model, toCall, variableSelection, valueSelection, AC)))
+    push!(toCall, (model, currentStatus) -> (remove!(x.domain, v); DepthFirstSearch!(model, toCall, variableSelection, valueSelection, AC, FC)))
 
     push!(toCall, (model, currentStatus) -> (saveNode!(model.tree); :SavingState))
 
 
     push!(toCall, (model, currentStatus) -> (restoreNode!(model.tree); :BackTracking))
 
-    push!(toCall, (model, currentStatus) -> (assign!(x, v); DepthFirstSearch!(model, toCall, variableSelection, valueSelection, AC)))
+    push!(toCall, (model, currentStatus) -> (assign!(model, x, v); DepthFirstSearch!(model, toCall, variableSelection, valueSelection, AC, FC)))
 
     push!(toCall, (model, currentStatus) -> (saveNode!(model.tree); :SavingState))
 
