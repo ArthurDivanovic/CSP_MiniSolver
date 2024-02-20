@@ -1,16 +1,18 @@
-mutable struct Size
-    value       ::Int
+mutable struct State{T}
+    value       ::T
 end
 
-struct NodeValue
-    value       ::Int
-    size        ::Size
+abstract type AbstractNodeValue end
+
+struct NodeValue{T} <: AbstractNodeValue
+    value       ::T
+    state       ::State{T}
 end
 
 
 mutable struct Node
-    values  ::Stack{NodeValue}
-    Node() = new(Stack{NodeValue}())
+    values  ::Stack{AbstractNodeValue}
+    Node() = new(Stack{AbstractNodeValue}())
 end
 
 mutable struct Tree
@@ -20,10 +22,10 @@ mutable struct Tree
 end
 
 
-function setValue!(tree::Tree, size::Size, value::Int)
-    if value != size.value
-        push!(tree.current.values, NodeValue(size.value, size))
-        size.value = value
+function setValue!(tree::Tree, state::State{T}, value::T) where {T}
+    if value != state.value
+        push!(tree.current.values, NodeValue(state.value, state))
+        state.value = value
     end
 end
 
@@ -34,7 +36,7 @@ end
 
 function restoreNode!(tree::Tree)
     for nodeValue in tree.current.values
-        nodeValue.size.value = nodeValue.value
+        nodeValue.state.value = nodeValue.value
     end
 
     if isempty(tree.queue)
