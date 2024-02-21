@@ -64,3 +64,12 @@ function displaySolution(model::Model)
         println(id, " = ", value(variable))
     end
 end
+
+function getSolutionVector(model::Model)
+    solutions = zeros(Int, length(model.variables))
+    for (id,variable) in model.variables
+        idx = parse(Int, match(r"[0-9]+", id).match)
+        solutions[idx] = value(variable)
+    end
+    return solutions
+end

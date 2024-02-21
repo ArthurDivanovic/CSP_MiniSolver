@@ -15,6 +15,11 @@ function search!(model::Model, variableSelection::AbstractVariableSelection, val
 
         currentStatus::Union{Nothing, Symbol} = currentProcedure(model, currentStatus)
     end
+
+    if currentStatus != :SolutionFound
+        return :Infeasible
+    end
+    return :SolutionFound
 end
 
 function DepthFirstSearch!(model::Model, toCall::Stack{Function}, variableSelection::AbstractVariableSelection, valueSelection::AbstractValueSelection, AC::Union{Nothing,<:AbstractAC}, FC::Union{Nothing, ForwardChecking})
@@ -34,7 +39,7 @@ function DepthFirstSearch!(model::Model, toCall::Stack{Function}, variableSelect
     end
 
     if solutionFound(model)
-        displaySolution(model)
+        # displaySolution(model)
         return :SolutionFound
     end
 
