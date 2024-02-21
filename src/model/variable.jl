@@ -1,4 +1,4 @@
-struct Variable 
+mutable struct Variable 
     id          ::String
     domain      ::AbstractDomain
     assigned    ::State{Bool}
