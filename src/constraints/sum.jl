@@ -82,5 +82,5 @@ function sumConstant(X::Vector{Variable}, weights::Union{Nothing,Vector{Int}}, c
         push!(constraints, xConstraint)
         push!(constraints, sConstraint)
     end
-    return constraints
+    return constraints, s
 end
