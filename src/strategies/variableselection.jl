@@ -47,3 +47,25 @@ function (::RandomVariableSelection)(model::Model)
     selectedId = notAssignedVariables[rand(1:length(notAssignedVariables))]
     return model.variables[selectedId]
 end
+
+
+struct SortedVariableSelection <: AbstractVariableSelection 
+    sorting       ::Vector{String}
+
+    function SortedVariableSelection(sorting::Vector{Int}, model::Model)
+        @assert(length(sorting) == length(model.variables))
+
+        variableName = split(first(values(model.variables)).id, "[")[1]
+        sortingIds = String[]
+        
+        for idx in sorting
+            push!(sortingIds, variableName*"[$idx]")
+        end
+        return new(sortingIds)
+    end
+end
+
+function (VS::SortedVariableSelection)(model::Model)
+    id = VS.sorting[model.treeHeight.value]
+    return model.variables[id]
+end

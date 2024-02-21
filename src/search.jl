@@ -5,6 +5,7 @@ function search!(model::Model, variableSelection::AbstractVariableSelection, val
 
     while !isempty(toCall)
         # println(currentStatus)
+        # println(model.treeHeight.value)
 
         if currentStatus == :SolutionFound
             break

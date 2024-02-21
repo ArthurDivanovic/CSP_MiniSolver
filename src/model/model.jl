@@ -7,12 +7,13 @@ abstract type AbstractConstraint end
 mutable struct Model
     variables       ::Dict{String, Variable}
     constraints     ::Array{AbstractConstraint}
-    tree            ::Tree
     lastAssigned    ::Union{Variable,Nothing}
+    tree            ::Tree
+    treeHeight      ::State{Int}
 
-    Model(tree::Tree) = new(Dict{String, Variable}(), AbstractConstraint[], tree, nothing)
+    Model(tree::Tree) = new(Dict{String, Variable}(), AbstractConstraint[], nothing, tree, State(1))
 
-    Model() = new(Dict{String, Variable}(), AbstractConstraint[], Tree(), nothing)
+    Model() = new(Dict{String, Variable}(), AbstractConstraint[], nothing, Tree(), State(1))
 end
 
 
@@ -39,6 +40,10 @@ function addConstraint!(model::Model, constraints::Vector{AbstractConstraint})
 end
 
 function assign!(model::Model, variable::Variable, value::Int)
+    # println(model.treeHeight.value)
+    # println(variable.id, " = ", value)
+
+    setValue!(model.tree, model.treeHeight, model.treeHeight.value + 1)
     model.lastAssigned = variable
     assign!(variable, value)
 end
@@ -56,6 +61,6 @@ end
 
 function displaySolution(model::Model)
     for (id,variable) in model.variables
-        println(id, " = ", variable.domain.values[1])
+        println(id, " = ", value(variable))
     end
 end
