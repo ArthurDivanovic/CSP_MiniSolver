@@ -18,6 +18,7 @@ end
 include("different.jl")
 include("differentconstant.jl")
 include("alldifferent.jl")
+include("sum.jl")
 
 
 
