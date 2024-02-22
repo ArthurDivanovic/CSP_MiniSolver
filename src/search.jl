@@ -4,8 +4,6 @@ function search!(model::Model, variableSelection::AbstractVariableSelection, val
     currentStatus = DepthFirstSearch!(model, toCall, variableSelection, valueSelection, AC, FC)
 
     while !isempty(toCall)
-        # println(currentStatus)
-        # println(model.treeHeight.value)
 
         if currentStatus == :SolutionFound
             break

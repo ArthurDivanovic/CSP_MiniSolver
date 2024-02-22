@@ -79,8 +79,11 @@ struct SortedVariableSelection <: AbstractVariableSelection
 end
 
 function (VS::SortedVariableSelection)(model::Model)
-    id = VS.sorting[model.treeHeight.value]
-    return model.variables[id]
+    for id in VS.sorting
+        if !isAssigned(model.variables[id])
+            return model.variables[id]
+        end
+    end
 end
 
 function KnapsackVariableSelection(weights::Vector{Int}, utilities::Vector{Int}, model::Model)

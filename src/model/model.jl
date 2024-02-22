@@ -9,7 +9,6 @@ mutable struct Model
     constraints     ::Array{AbstractConstraint}
     lastAssigned    ::Union{Variable,Nothing}
     tree            ::Tree
-    treeHeight      ::State{Int}
 
     Model(tree::Tree) = new(Dict{String, Variable}(), AbstractConstraint[], nothing, tree, State(1))
 
@@ -40,10 +39,6 @@ function addConstraint!(model::Model, constraints::Vector{AbstractConstraint})
 end
 
 function assign!(model::Model, variable::Variable, value::Int)
-    # println(model.treeHeight.value)
-    # println(variable.id, " = ", value)
-
-    setValue!(model.tree, model.treeHeight, model.treeHeight.value + 1)
     model.lastAssigned = variable
     assign!(variable, value)
 end
