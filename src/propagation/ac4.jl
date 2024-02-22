@@ -16,8 +16,15 @@ function init_AC4(model::Model)
             total = 0
 
             for y_value in feasibleValues(y)
-
-                if (x_value, y_value) in constraint.tuples
+                
+                test = nothing
+                if isa(constraint, ConstraintTuple)
+                    test =  (x_value, y_value) in constraint.tuples
+                else 
+                    test =  constraint.matrix[x_value, y_value]
+                end
+                
+                if test
                     total += 1
 
                     if haskey(S, (y.id, y_value)) 

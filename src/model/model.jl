@@ -10,9 +10,9 @@ mutable struct Model
     lastAssigned    ::Union{Variable,Nothing}
     tree            ::Tree
 
-    Model(tree::Tree) = new(Dict{String, Variable}(), AbstractConstraint[], nothing, tree, State(1))
+    Model(tree::Tree) = new(Dict{String, Variable}(), AbstractConstraint[], nothing, tree)
 
-    Model() = new(Dict{String, Variable}(), AbstractConstraint[], nothing, Tree(), State(1))
+    Model() = new(Dict{String, Variable}(), AbstractConstraint[], nothing, Tree())
 end
 
 
