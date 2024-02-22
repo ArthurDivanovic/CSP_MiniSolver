@@ -63,8 +63,11 @@ end
 function getSolutionVector(model::Model)
     solutions = zeros(Int, length(model.variables))
     for (id,variable) in model.variables
-        idx = parse(Int, match(r"[0-9]+", id).match)
-        solutions[idx] = value(variable)
+        m = match(r"[0-9]+", id)
+        if !isnothing(m)
+            idx = parse(Int, m.match)
+            solutions[idx] = value(variable)
+        end
     end
     return solutions
 end
