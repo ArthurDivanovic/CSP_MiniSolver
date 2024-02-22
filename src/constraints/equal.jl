@@ -1,4 +1,4 @@
-function equal(x::Variable, y::Variable , ::Type{ConstraintTuple})
+function Equal(x::Variable, y::Variable , ::Type{ConstraintTuple})
     
     xConstraint = ConstraintTuple(x, y)
     yConstraint = ConstraintTuple(y, x)
@@ -18,7 +18,7 @@ function equal(x::Variable, y::Variable , ::Type{ConstraintTuple})
     return AbstractConstraint[xConstraint, yConstraint]
 end
 
-function equal(x::Variable, y::Variable , ::Type{ConstraintMatrix})
+function Equal(x::Variable, y::Variable , ::Type{ConstraintMatrix})
 
     xConstraint = ConstraintMatrix(x, y)
     yConstraint = ConstraintMatrix(y, x)
