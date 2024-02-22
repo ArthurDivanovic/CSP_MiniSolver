@@ -1,0 +1,9 @@
+dsjc1000.5.col.txt 86 85 84
+dsjc125.1.col.txt 5
+dsjc125.9.col.txt 44
+dsjc250.1.col.txt 8
+dsjc250.5.col.txt 28
+dsjc250.9.col.txt 72
+flat300_26_0.col.txt 26
+le450_15c.col.txt 15
+random-120.col 17 16
