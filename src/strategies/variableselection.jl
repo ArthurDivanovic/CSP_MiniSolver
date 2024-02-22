@@ -53,17 +53,16 @@ struct SortedVariableSelection <: AbstractVariableSelection
     sorting       ::Vector{String}
 
     function SortedVariableSelection(sorting::Vector{Int}, model::Model)
-        @assert(length(sorting) == length(model.variables))
 
         variableName = ""
         bool = true
         tupleIds = String[]
-        for variable in model.variables
-            if isa(variable.domain, DomainTuple)
+        for (id,variable) in model.variables
+            if isa(variable.domain, TupleDomain)
                 push!(tupleIds, variable.id)
             end
             if bool && isa(variable.domain, Domain)
-                variableName = split(variable.id, "[")[1]
+                variableName = split(id, "[")[1]
                 bool = false
             end
         end
