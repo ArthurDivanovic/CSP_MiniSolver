@@ -47,7 +47,7 @@ function scalarProduct(x::Union{Tuple, Vector{Int}}, y::Union{Tuple, Vector{Int}
 end
 
 
-function sumConstant(X::Vector{Variable}, weights::Union{Nothing,Vector{Int}}, constant::Int, operator::Function)
+function SumConstant(X::Vector{Variable}, weights::Union{Nothing,Vector{Int}}, constant::Int, operator::Function)
     domains = Vector{Int}[]
 
     if isnothing(weights)

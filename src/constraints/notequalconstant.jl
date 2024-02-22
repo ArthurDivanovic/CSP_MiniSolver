@@ -1,6 +1,4 @@
-struct Different end
-
-function different(x::Variable, y::Variable , ::Type{ConstraintTuple})
+function NotEqualConstant(x::Variable, y::Variable, xConst::Int, yConst::Int, ::Type{ConstraintTuple})
     
     xConstraint = ConstraintTuple(x, y)
     yConstraint = ConstraintTuple(y, x)
@@ -10,7 +8,7 @@ function different(x::Variable, y::Variable , ::Type{ConstraintTuple})
 
     for xValue in x.domain.values
         for yValue in y.domain.values
-            if xValue + xOffset != yValue + yOffset
+            if xValue + xOffset + xConst != yValue + yOffset + yConst
                 push!(xConstraint.tuples, (xValue, yValue))
                 push!(yConstraint.tuples, (yValue, xValue))
             end
@@ -20,7 +18,8 @@ function different(x::Variable, y::Variable , ::Type{ConstraintTuple})
     return AbstractConstraint[xConstraint, yConstraint]
 end
 
-function different(x::Variable, y::Variable , ::Type{ConstraintMatrix})
+
+function NotEqualConstant(x::Variable, y::Variable, xConst::Int, yConst::Int, ::Type{ConstraintMatrix})
 
     xConstraint = ConstraintMatrix(x, y)
     yConstraint = ConstraintMatrix(y, x)
@@ -30,7 +29,7 @@ function different(x::Variable, y::Variable , ::Type{ConstraintMatrix})
 
     for xValue in x.domain.values
         for yValue in y.domain.values
-            if xValue + xOffset != yValue + yOffset
+            if xValue + xOffset + xConst != yValue + yOffset + yConst
                 xConstraint.matrix[xValue, yValue] = 1
                 yConstraint.matrix[yValue, xValue] = 1
             end

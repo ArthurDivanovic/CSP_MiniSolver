@@ -69,3 +69,8 @@ function (VS::SortedVariableSelection)(model::Model)
     id = VS.sorting[model.treeHeight.value]
     return model.variables[id]
 end
+
+function KnapsackVariableSelection(weights::Vector{Int}, utilities::Vector{Int}, model::Model)
+    sorting = sortperm(utilities ./ weights, rev=true)
+    return SortedVariableSelection(sorting, model)
+end

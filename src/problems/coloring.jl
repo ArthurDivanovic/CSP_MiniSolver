@@ -95,7 +95,7 @@ function graph_coloring(file_path::String, k::Int, T::Type{<:AbstractConstraint}
     for i = 1:n
         for j = i+1:n
             if adj[i,j] == 1
-                addConstraint!(model, different(C[i], C[j], T))
+                addConstraint!(model, NotEqual(C[i], C[j], T))
             end
         end
     end

@@ -41,13 +41,13 @@ function knapsack(filepath::String, k::Int, T::Type{<:AbstractConstraint})
     end
 
     # Weight constraint 
-    weight_constraints, weight_s = sumConstant(X, object_weights, wmax, <=)
+    weight_constraints, weight_s = SumConstant(X, object_weights, wmax, <=)
     weight_s.id = "sum_weight"
     addVariable!(model, weight_s)
     addConstraint!(model, weight_constraints)
 
     # Utility constraint
-    utility_constraints, utility_s = sumConstant(X, object_utilities, k, >=)
+    utility_constraints, utility_s = SumConstant(X, object_utilities, k, >=)
     utility_s.id = "sum_utility"
     addVariable!(model, utility_s)
     addConstraint!(model, utility_constraints)

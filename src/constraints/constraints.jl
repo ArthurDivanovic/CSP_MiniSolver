@@ -15,8 +15,9 @@ struct ConstraintMatrix <: AbstractConstraint
 end 
 
 
-include("different.jl")
-include("differentconstant.jl")
+include("notequal.jl")
+include("notequalconstant.jl")
+include("equal.jl")
 include("alldifferent.jl")
 include("sum.jl")
 

@@ -19,3 +19,17 @@ struct RandomValueSelection <: AbstractValueSelection end
 function (::RandomValueSelection)(model::Model, variable::Variable)
     return variable.domain.values[rand(1:variable.domain.size.value)]
 end
+
+struct MaxDomainValueSelection <: AbstractValueSelection end
+
+function(::MaxDomainValueSelection)(model::Model, variable::Variable)
+    maxValue = 1
+    idx = 1
+    while idx <= variable.domain.size.value
+        if variable.domain.values[idx] > maxValue
+            maxValue = variable.domain.values[idx]
+        end
+        idx += 1
+    end
+    return maxValue
+end
