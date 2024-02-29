@@ -27,6 +27,11 @@ Additionally, three notebooks are included (one for each of the aforementioned p
 
 This repository can be cloned directly from this webpage.
 
+Then required packages can be installed in julia with
+```julia
+include("requirements.jl")
+```
+
 ## 3. Structure and Documentation
 
 ### 3.1 src folder
