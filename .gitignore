@@ -1,7 +1,7 @@
 #/data
 /results
 /.vscode
-*.ipynb
+*2.ipynb
 .DS_Store
 
 test.jl
